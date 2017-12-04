@@ -1,3 +1,5 @@
+export const immutablePush = (list, item) => [...list, item];
+
 export const splitGroups = (list, maxSize=5, minSize=3) => {
   let tempList = [...list];
   let groups = [];

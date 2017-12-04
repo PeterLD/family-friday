@@ -1,5 +1,9 @@
 Family Friday react app as outlined in this [gist](https://gist.github.com/NWKMF/258fdb64200b91d0f84d7307cd1152b4).
 
+To develop locally, just run:
+
+### `npm install && npm start`
+
 ## Available Scripts
 
 In the project directory, you can run:

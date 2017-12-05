@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
-import { Button, Container, Grid, Header, Icon, Input, List } from 'semantic-ui-react';
+import { Button, Container, Grid, Header, Icon, Input, List, Menu } from 'semantic-ui-react';
 import { immutablePush, splitGroups } from './lib/utils';
 
 class App extends Component {
@@ -35,15 +35,21 @@ class App extends Component {
   render() {
     return (
       <Container style={{ marginTop: '2em' }}>
-        <Header as='h1'>Family Friday</Header>
-        <form onSubmit={ this.state.newEmployee ? this.handleAddEmployee : (evt) => evt.preventDefault() }>
-          <Input
-            icon={<Icon name='add user' inverted circular />}
-            placeholder='Add employee...'
-            onChange={this.handleInputChange}
-            value={this.state.newEmployee} />
-        </form>
-        <Button content='Shuffle' icon='random' labelPosition='right' onClick={this.handleShuffle} primary />
+        <Container>
+          <Header as='h1'floated='left'>Family Friday</Header>
+          <form position='right' onSubmit={ this.state.newEmployee ? this.handleAddEmployee : (evt) => evt.preventDefault() }>
+            <Input
+              icon={<Icon name='add user' inverted circular />}
+              placeholder='Add employee...'
+              style={{float: 'right'}}
+              onChange={this.handleInputChange}
+              value={this.state.newEmployee} />
+          </form>
+        </Container>
+        <Container style={{marginTop: '2em', marginBottom: '2em', clear: 'both'}} textAlign='center'>
+          <Button content='Shuffle' size='massive' icon='random' labelPosition='right' onClick={this.handleShuffle} primary />
+        </Container>
+        <Container>
         <Grid columns={3} padded>
           {this.state.groups.map((group, i) => (
             <Grid.Column key={i}>
@@ -56,6 +62,7 @@ class App extends Component {
             </Grid.Column>
           ))}
         </Grid>
+        </Container>
       </Container>
     );
   }

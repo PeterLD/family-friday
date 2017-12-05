@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
-import { Button, Container, Grid, Header, Icon, Input, List, Menu } from 'semantic-ui-react';
+import { Button, Container, Grid, Header, Icon, Input, List } from 'semantic-ui-react';
 import { immutablePush, splitGroups } from './lib/utils';
 
 class App extends Component {
@@ -18,8 +18,7 @@ class App extends Component {
 
     let newGroups = _.flow(_.flatten,
       _.partialRight(immutablePush, this.state.newEmployee),
-      splitGroups)
-      (this.state.groups);
+        splitGroups)(this.state.groups);
 
     this.setState({groups: newGroups, newEmployee: ''});
     localStorage.setItem('groups', JSON.stringify(newGroups));

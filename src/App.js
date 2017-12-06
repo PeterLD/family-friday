@@ -1,12 +1,19 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import { Button, Container, Grid, Header, Icon, Input, List } from 'semantic-ui-react';
-import { immutablePush, splitGroups } from './lib/utils';
+import { immutablePush, splitGroups, toggleIsHere } from './lib/utils';
 
 class App extends Component {
   state = {
     newEmployee: '',
     groups: JSON.parse(localStorage.getItem('groups')) || []
+  }
+
+  handleIsHere = (id) => {
+    let newList = _.flow(_.flatten, _.partialRight(toggleIsHere, id), splitGroups)(this.state.groups);
+    this.setState({groups: newList});
+    console.dir(newList);
+    localStorage.setItem('groups', JSON.stringify(newList));
   }
 
   handleInputChange = (evt) => {
@@ -17,7 +24,7 @@ class App extends Component {
     evt.preventDefault();
 
     let newGroups = _.flow(_.flatten,
-      _.partialRight(immutablePush, this.state.newEmployee),
+      _.partialRight(immutablePush, {name: this.state.newEmployee, isHere: true, id: _.uniqueId()}),
         splitGroups)(this.state.groups);
 
     this.setState({groups: newGroups, newEmployee: ''});
@@ -27,7 +34,7 @@ class App extends Component {
   handleShuffle = (evt) => {
     let newGroups = _.flow(_.flatten, _.shuffle, splitGroups)(this.state.groups);
 
-    this.setState({'groups': newGroups})
+    this.setState({'groups': newGroups});
     localStorage.setItem('groups', JSON.stringify(newGroups));
   }
 
@@ -55,7 +62,7 @@ class App extends Component {
               <Header as='h2'>Group {i + 1}</Header>
               <List>
                 {group.map((employee, j) => (
-                  <List.Item key={j}>{employee}</List.Item>
+                  <List.Item key={j}>{employee.name} <input type='checkbox' checked={employee.isHere} onChange={(evt) => this.handleIsHere(employee.id)} /></List.Item>
                 ))}
               </List>
             </Grid.Column>
